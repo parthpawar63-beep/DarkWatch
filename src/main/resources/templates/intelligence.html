@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>DARKWATCH - Threat Intelligence</title>
+
+    <link rel="stylesheet"
+          href="/css/dashboard.css">
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        DARK<span>WATCH</span>
+    </div>
+
+    <div class="sidebar-title">
+        MONITORING
+    </div>
+
+    <a href="/" class="nav-item">
+        📊 Dashboard
+    </a>
+
+    <a href="/history" class="nav-item">
+        📋 Scan History
+    </a>
+
+    <a href="/alerts" class="nav-item">
+        🚨 Threat Alerts
+    </a>
+
+    <a href="/monitoring" class="nav-item">
+        🌐 Monitored Sources
+    </a>
+
+    <a href="/intelligence" class="nav-item active">
+        🧠 Threat Intelligence
+    </a>
+
+    <a href="/tor-status" class="nav-item">
+        🧅 Tor Connectivity
+    </a>
+
+</aside>
+
+
+<main class="main">
+
+    <section class="header">
+
+        <div>
+
+            <div class="eyebrow">
+                DARKWATCH THREAT INTELLIGENCE
+            </div>
+
+            <h1>
+                Threat Intelligence
+            </h1>
+
+            <p>
+                Review security indicators identified by monitored sources.
+            </p>
+
+        </div>
+
+        <div class="system-status">
+
+            <span class="status-dot"></span>
+
+            ANALYSIS ACTIVE
+
+        </div>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+
+    <section class="cards">
+
+        <div class="card">
+
+            <div class="card-title">
+                TOTAL INDICATORS
+            </div>
+
+            <div class="card-value"
+                 th:text="${totalIndicators}">
+                0
+            </div>
+
+            <div class="card-description">
+                Detected indicators
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                HIGH SEVERITY
+            </div>
+
+            <div class="card-value red"
+                 th:text="${highSeverity}">
+                0
+            </div>
+
+            <div class="card-description">
+                Immediate attention
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                MEDIUM SEVERITY
+            </div>
+
+            <div class="card-value yellow"
+                 th:text="${mediumSeverity}">
+                0
+            </div>
+
+            <div class="card-description">
+                Requires review
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                LOW SEVERITY
+            </div>
+
+            <div class="card-value green"
+                 th:text="${lowSeverity}">
+                0
+            </div>
+
+            <div class="card-description">
+                Informational
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- INDICATOR TABLE -->
+
+    <section class="activity">
+
+        <div class="activity-header">
+
+            <div>
+
+                <div class="eyebrow">
+                    DETECTED INDICATORS
+                </div>
+
+                <h2>
+                    Intelligence Records
+                </h2>
+
+            </div>
+
+            <span class="live">
+                ● LIVE
+            </span>
+
+        </div>
+
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>
+                    Type
+                </th>
+
+                <th>
+                    Indicator
+                </th>
+
+                <th>
+                    Source
+                </th>
+
+                <th>
+                    Severity
+                </th>
+
+                <th>
+                    Detected At
+                </th>
+
+            </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            <tr th:each="indicator : ${indicators}">
+
+                <td th:text="${indicator.indicatorType}">
+                    EMAIL
+                </td>
+
+                <td th:text="${indicator.indicatorValue}">
+                    example@example.com
+                </td>
+
+                <td th:text="${indicator.sourceName}">
+                    Source
+                </td>
+
+                <td>
+
+                    <span
+                        th:classappend="${indicator.severity == 'HIGH'}
+                            ? ' risk-high'
+                            : (${indicator.severity == 'MEDIUM'}
+                                ? ' risk-medium'
+                                : ' risk-low')"
+                        th:text="${indicator.severity}">
+                        LOW
+                    </span>
+
+                </td>
+
+                <td th:text="${indicator.detectedAt}">
+                    Never
+                </td>
+
+            </tr>
+
+
+            <tr th:if="${indicators == null or #lists.isEmpty(indicators)}">
+
+                <td colspan="5">
+
+                    🛡️ No threat indicators detected yet.
+
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <footer>
+
+        <span>
+            DARKWATCH v1.0
+        </span>
+
+        <span>
+            Threat Intelligence Engine
+        </span>
+
+        <span class="footer-status">
+            ● Analysis Active
+        </span>
+
+    </footer>
+
+</main>
+
+</body>
+
+</html>

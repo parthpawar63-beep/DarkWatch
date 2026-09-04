@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>DARKWATCH - Monitored Sources</title>
+
+    <link rel="stylesheet"
+          href="/css/dashboard.css">
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        DARK<span>WATCH</span>
+    </div>
+
+    <div class="sidebar-title">
+        MONITORING
+    </div>
+
+    <a href="/" class="nav-item">
+        📊 Dashboard
+    </a>
+
+    <a href="/history" class="nav-item">
+        📋 Scan History
+    </a>
+
+    <a href="/alerts" class="nav-item">
+        🚨 Threat Alerts
+    </a>
+
+    <a href="/monitoring" class="nav-item active">
+        🌐 Monitored Sources
+    </a>
+
+    <a href="/tor-status" class="nav-item">
+        🧅 Tor Connectivity
+    </a>
+
+</aside>
+
+
+<main class="main">
+
+    <!-- HEADER -->
+
+    <section class="header">
+
+        <div>
+
+            <div class="eyebrow">
+                DARKWATCH NETWORK INTELLIGENCE
+            </div>
+
+            <h1>
+                Monitored Sources
+            </h1>
+
+            <p>
+                Monitor configured intelligence sources through the Tor network.
+            </p>
+
+        </div>
+
+        <div class="system-status">
+
+            <span class="status-dot"></span>
+
+            TOR CONNECTED
+
+        </div>
+
+    </section>
+
+
+    <!-- ADD SOURCE -->
+
+    <section class="scanner">
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="eyebrow">
+                    SOURCE CONFIGURATION
+                </div>
+
+                <h2>
+                    Add Monitored Source
+                </h2>
+
+                <p>
+                    Add an authorized onion service for monitoring.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form
+            action="/monitoring/add"
+            method="post"
+            class="scan-form"
+        >
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Source name"
+                required
+            >
+
+            <input
+                type="text"
+                name="onionAddress"
+                placeholder="example.onion"
+                required
+            >
+
+            <input
+                type="text"
+                name="category"
+                placeholder="Category"
+            >
+
+            <button type="submit">
+                ADD SOURCE
+            </button>
+
+        </form>
+
+        <div class="supported">
+
+            Only monitor onion services that you are authorized to monitor.
+
+        </div>
+
+    </section>
+
+
+    <!-- MONITORED SOURCES -->
+
+    <section class="activity">
+
+        <div class="activity-header">
+
+            <div>
+
+                <div class="eyebrow">
+                    SOURCE MONITORING
+                </div>
+
+                <h2>
+                    Onion Intelligence Sources
+                </h2>
+
+            </div>
+
+            <span class="live">
+                ● LIVE
+            </span>
+
+        </div>
+
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>
+                    Source
+                </th>
+
+                <th>
+                    Category
+                </th>
+
+                <th>
+                    Status
+                </th>
+
+                <th>
+                    HTTP
+                </th>
+
+                <th>
+                    Response
+                </th>
+
+                <th>
+                    Content
+                </th>
+
+                <th>
+                    Indicators
+                </th>
+
+                <th>
+                    Risk
+                </th>
+
+                <th>
+                    Last Checked
+                </th>
+
+                <th>
+                    Actions
+                </th>
+
+            </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            <tr th:each="source : ${sources}">
+
+                <td>
+
+                    <strong th:text="${source.name}">
+                        Source
+                    </strong>
+
+                    <div class="source-address"
+                         th:text="${source.onionAddress}">
+                        example.onion
+                    </div>
+
+                </td>
+
+
+                <td th:text="${source.category}">
+                    Intelligence
+                </td>
+
+
+                <td>
+
+                    <span
+                        th:classappend="${source.status == 'ONLINE'}
+                            ? ' status-online'
+                            : (${source.status == 'OFFLINE'}
+                                ? ' status-danger'
+                                : '')"
+                        th:text="${source.status}">
+                        NOT CHECKED
+                    </span>
+
+                </td>
+
+
+                <td th:text="${source.httpStatus == 0 ? '-' : source.httpStatus}">
+                    -
+                </td>
+
+
+                <td th:text="${source.responseTime + ' ms'}">
+                    0 ms
+                </td>
+
+
+                <td th:text="${source.contentLength + ' bytes'}">
+                    0 bytes
+                </td>
+
+
+                <td th:text="${source.indicatorCount}">
+                    0
+                </td>
+
+
+                <td>
+
+                    <span
+                        th:classappend="${source.riskLevel == 'HIGH'}
+                            ? ' risk-high'
+                            : (${source.riskLevel == 'MEDIUM'}
+                                ? ' risk-medium'
+                                : (${source.riskLevel == 'LOW'}
+                                    ? ' risk-low'
+                                    : ''))"
+                        th:text="${source.riskLevel}">
+                        UNKNOWN
+                    </span>
+
+                </td>
+
+
+                <td th:text="${source.lastChecked}">
+                    Never
+                </td>
+
+
+                <td>
+
+                    <a
+                        th:href="@{/monitoring/check/{id}(id=${source.id})}"
+                        class="scan-action"
+                    >
+                        CHECK
+                    </a>
+
+                    <a
+                        th:href="@{/monitoring/delete/{id}(id=${source.id})}"
+                        class="delete-action"
+                    >
+                        DELETE
+                    </a>
+
+                </td>
+
+            </tr>
+
+
+            <tr
+                th:if="${sources == null or #lists.isEmpty(sources)}"
+            >
+
+                <td colspan="10">
+
+                    No monitored sources configured yet.
+
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- INFORMATION -->
+
+    <section class="scanner">
+
+        <div class="eyebrow">
+            ANALYSIS ENGINE
+        </div>
+
+        <h2>
+            How DARKWATCH evaluates a source
+        </h2>
+
+        <p>
+            DARKWATCH checks source availability through the configured
+            Tor SOCKS5 connection, records response metadata, and calculates
+            a basic risk level from detected security indicators.
+        </p>
+
+        <div class="result-grid">
+
+            <div class="result-box">
+
+                <div class="result-box-title">
+                    HTTP STATUS
+                </div>
+
+                <div class="threat-value">
+                    Availability
+                </div>
+
+            </div>
+
+
+            <div class="result-box">
+
+                <div class="result-box-title">
+                    INDICATORS
+                </div>
+
+                <div class="threat-value">
+                    Pattern Detection
+                </div>
+
+            </div>
+
+
+            <div class="result-box">
+
+                <div class="result-box-title">
+                    RISK LEVEL
+                </div>
+
+                <div class="threat-value">
+                    LOW / MEDIUM / HIGH
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <span>
+            DARKWATCH v1.0
+        </span>
+
+        <span>
+            Tor-based source monitoring
+        </span>
+
+        <span class="footer-status">
+            ● Monitoring Active
+        </span>
+
+    </footer>
+
+</main>
+
+</body>
+
+</html>

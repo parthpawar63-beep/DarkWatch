@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DARKWATCH - Scan History</title>
+
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        DARK<span>WATCH</span>
+    </div>
+
+    <div class="sidebar-title">
+        MONITORING
+    </div>
+
+    <a href="/" class="nav-item">
+        📊 Dashboard
+    </a>
+
+    <a href="/" class="nav-item">
+        🔍 Leak Scanner
+    </a>
+
+    <a href="/history" class="nav-item active">
+        📋 Scan History
+    </a>
+
+    <a href="/" class="nav-item">
+        🚨 Threat Alerts
+    </a>
+
+    <a href="/" class="nav-item">
+        📄 Reports
+    </a>
+
+    <div class="sidebar-bottom">
+
+        <a href="/" class="nav-item">
+            ⚙️ Settings
+        </a>
+
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+    <section class="header">
+
+        <div>
+
+            <div class="eyebrow">
+                CYBERSECURITY INTELLIGENCE PLATFORM
+            </div>
+
+            <h1>
+                Scan History
+            </h1>
+
+            <p>
+                Review previously analyzed targets and their recorded risk status.
+            </p>
+
+        </div>
+
+        <div class="system-status">
+            <span class="status-dot"></span>
+            SYSTEM OPERATIONAL
+        </div>
+
+    </section>
+
+
+    <section class="activity">
+
+        <div class="activity-header">
+
+            <div>
+
+                <div class="eyebrow">
+                    MONITORING LOG
+                </div>
+
+                <h2>
+                    Historical Scan Records
+                </h2>
+
+            </div>
+
+            <span class="live">
+                ● DATABASE CONNECTED
+            </span>
+
+        </div>
+
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Target</th>
+
+                    <th>Type</th>
+
+                    <th>Status</th>
+
+                    <th>Risk</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr th:each="scan : ${scanResults}">
+
+                    <td th:text="${scan.target}">
+                        target
+                    </td>
+
+                    <td th:text="${scan.type}">
+                        Email
+                    </td>
+
+                    <td th:text="${scan.status}">
+                        Completed
+                    </td>
+
+                    <td th:text="${scan.risk}">
+                        LOW
+                    </td>
+
+                </tr>
+
+
+                <tr th:if="${scanResults == null or #lists.isEmpty(scanResults)}">
+
+                    <td colspan="4">
+                        No scan records available.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <footer>
+
+        <span>
+            DARKWATCH v1.0
+        </span>
+
+        <span>
+            Dark Web Exposure Monitoring System
+        </span>
+
+        <span class="footer-status">
+            ● Monitoring Active
+        </span>
+
+    </footer>
+
+</main>
+
+</body>
+
+</html>

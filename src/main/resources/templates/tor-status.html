@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>DARKWATCH - Tor Status</title>
+
+    <link rel="stylesheet"
+          href="/css/dashboard.css">
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        DARK<span>WATCH</span>
+    </div>
+
+    <div class="sidebar-title">
+        MONITORING
+    </div>
+
+    <a href="/" class="nav-item">
+        📊 Dashboard
+    </a>
+
+    <a href="/history" class="nav-item">
+        📋 Scan History
+    </a>
+
+    <a href="/alerts" class="nav-item">
+        🚨 Threat Alerts
+    </a>
+
+    <a href="/tor-status" class="nav-item active">
+        🌐 Tor Connectivity
+    </a>
+
+</aside>
+
+
+<main class="main">
+
+    <section class="header">
+
+        <div>
+
+            <div class="eyebrow">
+                DARKWATCH NETWORK LAYER
+            </div>
+
+            <h1>
+                Tor Connectivity
+            </h1>
+
+            <p>
+                Verify connectivity through the local Tor SOCKS5 proxy.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="activity">
+
+        <div class="eyebrow">
+            TOR STATUS
+        </div>
+
+        <h2>
+            Connection Response
+        </h2>
+
+        <pre th:text="${torResponse}"
+             style="
+                margin-top: 20px;
+                padding: 20px;
+                background: #080c11;
+                border: 1px solid #26323d;
+                border-radius: 8px;
+                color: #53d68a;
+                white-space: pre-wrap;
+                word-break: break-word;
+             ">
+        </pre>
+
+    </section>
+
+</main>
+
+</body>
+
+</html>

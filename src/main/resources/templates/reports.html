@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>DARKWATCH - Reports</title>
+
+    <link rel="stylesheet"
+          href="/css/dashboard.css">
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        DARK<span>WATCH</span>
+    </div>
+
+    <div class="sidebar-title">
+        MONITORING
+    </div>
+
+    <a href="/" class="nav-item">
+        📊 Dashboard
+    </a>
+
+    <a href="/history" class="nav-item">
+        📋 Scan History
+    </a>
+
+    <a href="/alerts" class="nav-item">
+        🚨 Threat Alerts
+    </a>
+
+    <a href="/monitoring" class="nav-item">
+        🌐 Monitored Sources
+    </a>
+
+    <a href="/intelligence" class="nav-item">
+        🧠 Threat Intelligence
+    </a>
+
+    <a href="/reports" class="nav-item active">
+        📄 Reports
+    </a>
+
+    <a href="/tor-status" class="nav-item">
+        🧅 Tor Connectivity
+    </a>
+
+</aside>
+
+
+<main class="main">
+
+    <section class="header">
+
+        <div>
+
+            <div class="eyebrow">
+                DARKWATCH SECURITY REPORTING
+            </div>
+
+            <h1>
+                Exposure Reports
+            </h1>
+
+            <p>
+                Generate and export a security assessment from the latest scan.
+            </p>
+
+        </div>
+
+        <div class="system-status">
+
+            <span class="status-dot"></span>
+
+            REPORTING ACTIVE
+
+        </div>
+
+    </section>
+
+
+    <section
+            class="scanner"
+            th:if="${latestScan != null}"
+    >
+
+        <div class="eyebrow">
+            LATEST SECURITY ASSESSMENT
+        </div>
+
+        <h2>
+            Exposure Assessment Report
+        </h2>
+
+
+        <div class="result-grid">
+
+            <div class="result-box">
+
+                <div class="result-box-title">
+                    TARGET
+                </div>
+
+                <div class="target"
+                     th:text="${latestScan.target}">
+                    target
+                </div>
+
+            </div>
+
+
+            <div class="result-box">
+
+                <div class="result-box-title">
+                    TARGET TYPE
+                </div>
+
+                <div class="analysis-complete"
+                     th:text="${latestScan.type}">
+                    Email
+                </div>
+
+            </div>
+
+
+            <div class="result-box">
+
+                <div class="result-box-title">
+                    RISK SCORE
+                </div>
+
+                <div class="risk-score">
+
+                    <span th:text="${latestScan.riskScore}">
+                        55
+                    </span>
+
+                    <small>/100</small>
+
+                </div>
+
+            </div>
+
+
+            <div class="result-box">
+
+                <div class="result-box-title">
+                    SEVERITY
+                </div>
+
+                <div class="threat-value"
+                     th:text="${latestScan.risk}">
+                    MEDIUM
+                </div>
+
+            </div>
+
+
+            <div class="result-box">
+
+                <div class="result-box-title">
+                    STATUS
+                </div>
+
+                <div class="analysis-complete"
+                     th:text="${latestScan.status}">
+                    EXPOSURE FOUND
+                </div>
+
+            </div>
+
+
+            <div class="result-box">
+
+                <div class="result-box-title">
+                    INTELLIGENCE SOURCE
+                </div>
+
+                <div class="analysis-complete"
+                     th:text="${latestScan.source}">
+                    Have I Been Pwned
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="recommendation">
+
+            <div class="recommendation-icon">
+                ⚠
+            </div>
+
+            <div>
+
+                <div class="result-box-title">
+                    RECOMMENDATION
+                </div>
+
+                <p th:if="${latestScan.risk == 'CRITICAL'}">
+                    Immediate investigation is recommended. Review the affected
+                    account, rotate potentially exposed credentials and enable MFA.
+                </p>
+
+                <p th:if="${latestScan.risk == 'HIGH'}">
+                    Investigate the exposure and rotate potentially compromised
+                    credentials. Enable MFA and review account activity.
+                </p>
+
+                <p th:if="${latestScan.risk == 'MEDIUM'}">
+                    Review the reported breach exposure and strengthen account
+                    security, including enabling MFA.
+                </p>
+
+                <p th:if="${latestScan.risk == 'LOW'}">
+                    Continue monitoring and maintain strong account security practices.
+                </p>
+
+                <p th:if="${latestScan.risk == 'UNKNOWN'}">
+                    Additional intelligence is required before a reliable risk
+                    assessment can be made.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="scanner-actions">
+
+            <a href="/reports/pdf"
+               class="scan-action">
+                📄 DOWNLOAD PDF REPORT
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <section
+            class="result-empty"
+            th:if="${latestScan == null}"
+    >
+
+        <div class="empty-icon">
+            📄
+        </div>
+
+        <div>
+
+            <strong>
+                No scan report available
+            </strong>
+
+            <p>
+                Run an exposure scan first to generate a report.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="activity">
+
+        <div class="activity-header">
+
+            <div>
+
+                <div class="eyebrow">
+                    REPORTING INFORMATION
+                </div>
+
+                <h2>
+                    Report Contents
+                </h2>
+
+            </div>
+
+            <span class="live">
+                ● PDF READY
+            </span>
+
+        </div>
+
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>
+                    Section
+                </th>
+
+                <th>
+                    Included Information
+                </th>
+
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            <tr>
+                <td>Target</td>
+                <td>Email, domain or username analyzed</td>
+            </tr>
+
+            <tr>
+                <td>Exposure</td>
+                <td>Exposure status and breach information</td>
+            </tr>
+
+            <tr>
+                <td>Risk</td>
+                <td>Risk score and severity classification</td>
+            </tr>
+
+            <tr>
+                <td>Intelligence</td>
+                <td>Source used for the assessment</td>
+            </tr>
+
+            <tr>
+                <td>Recommendation</td>
+                <td>Suggested security response</td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <footer>
+
+        <span>
+            DARKWATCH v1.0
+        </span>
+
+        <span>
+            Security Reporting Module
+        </span>
+
+        <span class="footer-status">
+            ● Monitoring Active
+        </span>
+
+    </footer>
+
+</main>
+
+</body>
+
+</html>
